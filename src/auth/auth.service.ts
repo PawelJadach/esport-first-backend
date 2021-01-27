@@ -43,7 +43,7 @@ export class AuthService {
             });
 
             if (!user) {
-                return res.json({ error: "Invalid credentials!" });
+                return res.json({ error: "Niepoprawne dane" });
             }
             const token = await this.createToken(
                 await this.generateToken(user),
