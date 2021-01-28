@@ -1,25 +1,25 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum UserRoleEnum {
-    ADMIN,
-    MODERATOR,
+  ADMIN,
+  MODERATOR,
 }
 @Entity()
 export class User extends BaseEntity {
-    @PrimaryGeneratedColumn("uuid")
-    id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @Column({ length: 255 })
-    email: string;
+  @Column({ length: 255 })
+  email: string;
 
-    @Column()
-    pwdHash: string;
+  @Column()
+  pwdHash: string;
 
-    @Column({ nullable: true, default: null })
-    currentTokenId: string | null;
+  @Column({ nullable: true, default: null })
+  currentTokenId: string | null;
 
-    @Column({
-        default: UserRoleEnum.MODERATOR,
-    })
-    role: UserRoleEnum;
+  @Column({
+    default: UserRoleEnum.MODERATOR,
+  })
+  role: UserRoleEnum;
 }
