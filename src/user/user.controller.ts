@@ -3,7 +3,6 @@ import { UserService } from "./user.service";
 import { RegisterUserResponse } from "../interfaces/user";
 import { RegisterDto } from "./dto/register.dto";
 import { AuthGuard } from "@nestjs/passport";
-
 @Controller("user")
 export class UserController {
     constructor(
