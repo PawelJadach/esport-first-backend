@@ -1,3 +1,4 @@
+import { UserService } from './../user/user.service';
 import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
 import { User } from 'src/user/user.entity';
@@ -10,6 +11,8 @@ import { jwt } from 'src/config/keys.config';
 
 @Injectable()
 export class AuthService {
+  constructor(private readonly userService: UserService) {}
+
   private createToken(
     currentTokenId: string
   ): { accessToken: string; expiresIn: number } {
@@ -53,7 +56,7 @@ export class AuthService {
           domain: 'localhost',
           httpOnly: true,
         })
-        .json({ ok: true });
+        .json(this.userService.filter(user));
     } catch (error) {
       return res.json({ error: error.message });
     }
@@ -70,6 +73,22 @@ export class AuthService {
       });
 
       return res.json({ ok: true });
+    } catch (error) {
+      return res.json({ error: error.message });
+    }
+  }
+
+  async verify(user: User, res: Response): Promise<any> {
+    try {
+      const token = await this.createToken(await this.generateToken(user));
+
+      return res
+        .cookie('jwt', token.accessToken, {
+          secure: false,
+          domain: 'localhost',
+          httpOnly: true,
+        })
+        .json(this.userService.filter(user));
     } catch (error) {
       return res.json({ error: error.message });
     }

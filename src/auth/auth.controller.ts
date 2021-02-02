@@ -15,6 +15,12 @@ export class AuthController {
     return this.authService.login(req, res);
   }
 
+  @Get('/verify')
+  @UseGuards(AuthGuard('jwt'))
+  verify(@UserObj() user: User, @Res() res: Response): Promise<any> {
+    return this.authService.verify(user, res);
+  }
+
   @Get('/logout')
   @UseGuards(AuthGuard('jwt'))
   async logout(@UserObj() user: User, @Res() res: Response) {

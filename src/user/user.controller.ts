@@ -8,7 +8,6 @@ export class UserController {
   constructor(@Inject(UserService) private readonly userService: UserService) {}
 
   @Post('/register')
-  @UseGuards(AuthGuard('jwt'))
   register(@Body() newUser: RegisterDto): Promise<RegisterUserResponse> {
     return this.userService.register(newUser);
   }
