@@ -1,9 +1,5 @@
 import { ErrorResponse } from './../interfaces/error';
-import {
-  CustomUserResponse,
-  GetUserResponse,
-  GetUsersResponse,
-} from './../interfaces/user';
+import { CustomUserResponse, GetUsersResponse } from './../interfaces/user';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { RegisterDto } from './dto/register.dto';
 import { User, UserRoleEnum } from './user.entity';
