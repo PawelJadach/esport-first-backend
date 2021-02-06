@@ -1,13 +1,13 @@
 import { UserService } from './../user/user.service';
 import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
-import { User } from 'src/user/user.entity';
-import { hashPwd } from 'src/utils/hashPwd';
+import { hashPwd } from '../utils/hashPwd';
 import { AuthLoginDto } from './dto/auth-login.dto';
 import { v4 as uuid } from 'uuid';
 import { sign } from 'jsonwebtoken';
 import { JwtPayload } from './jwt.strategy';
-import { jwt } from 'src/config/keys.config';
+import { jwt } from '../config/keys.config';
+import { User } from '../user/user.entity';
 
 @Injectable()
 export class AuthService {

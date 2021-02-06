@@ -4,7 +4,8 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { RegisterDto } from './dto/register.dto';
 import { User, UserRoleEnum } from './user.entity';
 import { RegisterUserResponse } from '../interfaces/user';
-import { hashPwd } from 'src/utils/hashPwd';
+import { hashPwd } from '../utils/hashPwd';
+import { Persons } from '../persons/persons.entity';
 
 @Injectable()
 export class UserService {
@@ -13,6 +14,7 @@ export class UserService {
       id: user.id,
       email: user.email,
       role: user.role,
+      person: user.person,
     };
   }
 
@@ -27,9 +29,9 @@ export class UserService {
   }
 
   async getAll(): Promise<GetUsersResponse> {
-    const [users] = await User.findAndCount();
+    const users = await User.find({ relations: ['person']});
 
-    return users.map(this.filter);
+    return users;
   }
 
   async register(
@@ -45,6 +47,12 @@ export class UserService {
 
     await user.save();
 
+    if(newUser.personId) {
+      const person = await Persons.findOne(newUser.personId)
+      user.person = person;
+    }
+    const new1User = await user.save();
+    console.log(new1User);
     return this.filter(user);
   }
 
@@ -63,7 +71,7 @@ export class UserService {
     const user = await this.findById(id);
 
     user.role = role;
-    console.log(user);
+
     await user.save();
 
     return { success: true };
