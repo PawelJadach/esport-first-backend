@@ -51,8 +51,7 @@ export class UserService {
       const person = await Persons.findOne(newUser.personId)
       user.person = person;
     }
-    const new1User = await user.save();
-    console.log(new1User);
+
     return this.filter(user);
   }
 
