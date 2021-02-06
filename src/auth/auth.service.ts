@@ -51,11 +51,7 @@ export class AuthService {
       const token = await this.createToken(await this.generateToken(user));
 
       return res
-        .cookie('jwt', token.accessToken, {
-          secure: false,
-          domain: 'localhost',
-          httpOnly: true,
-        })
+        .cookie('jwt', token.accessToken)
         .json(this.userService.filter(user));
     } catch (error) {
       return res.json({ error: error.message });
@@ -66,11 +62,7 @@ export class AuthService {
     try {
       user.currentTokenId = null;
       await user.save();
-      res.clearCookie('jwt', {
-        secure: false,
-        domain: 'localhost',
-        httpOnly: true,
-      });
+      res.clearCookie('jwt');
 
       return res.json({ ok: true });
     } catch (error) {
@@ -83,11 +75,7 @@ export class AuthService {
       const token = await this.createToken(await this.generateToken(user));
 
       return res
-        .cookie('jwt', token.accessToken, {
-          secure: false,
-          domain: 'localhost',
-          httpOnly: true,
-        })
+        .cookie('jwt', token.accessToken)
         .json(this.userService.filter(user));
     } catch (error) {
       return res.json({ error: error.message });
