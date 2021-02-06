@@ -30,8 +30,8 @@ export class UserService {
 
   async getAll(): Promise<GetUsersResponse> {
     const users = await User.find({ relations: ['person']});
-
-    return users;
+    console.log(users);
+    return users.map(this.filter);
   }
 
   async register(

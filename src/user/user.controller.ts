@@ -33,7 +33,7 @@ export class UserController {
   }
 
   @Post('/register')
-  // @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'))
   register(
     @Body() newUser: RegisterDto
   ): Promise<RegisterUserResponse | ErrorResponse> {
