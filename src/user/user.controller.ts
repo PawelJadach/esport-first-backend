@@ -1,6 +1,7 @@
+import { EditUserDto } from './dto/edit-user.dto';
 import { ErrorResponse } from './../interfaces/error';
 import { UserRoleEnum } from './user.entity';
-import { CustomUserResponse, GetUsersResponse } from './../interfaces/user';
+import { CustomUserResponse, GetUsersResponse, GetUserResponse } from './../interfaces/user';
 import {
   Body,
   Controller,
@@ -44,5 +45,11 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'))
   deleteOne(@Param('id') id: string): Promise<CustomUserResponse> {
     return this.userService.deleteOne(id);
+  }
+
+  @Put('/:id')
+  @UseGuards(AuthGuard('jwt'))
+  update(@Param('id') id: string, @Body() user: EditUserDto): Promise<GetUserResponse> {
+    return this.userService.edit(id, user);
   }
 }

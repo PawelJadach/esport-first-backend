@@ -1,5 +1,6 @@
+import { EditUserDto } from './dto/edit-user.dto';
 import { ErrorResponse } from './../interfaces/error';
-import { CustomUserResponse, GetUsersResponse } from './../interfaces/user';
+import { CustomUserResponse, GetUsersResponse, GetUserResponse } from './../interfaces/user';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { RegisterDto } from './dto/register.dto';
 import { User, UserRoleEnum } from './user.entity';
@@ -19,7 +20,7 @@ export class UserService {
   }
 
   private async findById(id: string): Promise<User> {
-    const user = await User.findOne(id);
+    const user = await User.findOne(id, { relations: ['person'] });
 
     if (!user) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
@@ -30,7 +31,7 @@ export class UserService {
 
   async getAll(): Promise<GetUsersResponse> {
     const users = await User.find({ relations: ['person']});
-    console.log(users);
+
     return users.map(this.filter);
   }
 
@@ -50,6 +51,8 @@ export class UserService {
     if(newUser.personId) {
       const person = await Persons.findOne(newUser.personId)
       user.person = person;
+
+      await user.save();
     }
 
     return this.filter(user);
@@ -61,6 +64,25 @@ export class UserService {
     await user.remove();
 
     return { success: true };
+  }
+
+  async edit(id: string, newUser: EditUserDto): Promise<GetUserResponse> {
+    const user = await this.findById(id);
+    for (const key in newUser) {
+      if(key === "personId") {
+        if(newUser.personId === "") {
+          user.person = null;
+        } else {
+          const person = await Persons.findOne(newUser.personId)
+          user.person = person;
+        }
+      } else {
+        user[key] = newUser[key]
+      }
+    }
+    const changedUser = await user.save();
+
+    return this.filter(changedUser);
   }
 
   async changeRole(

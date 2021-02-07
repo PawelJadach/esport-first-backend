@@ -2,6 +2,7 @@ import { Persons } from './persons.entity';
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { CreatePersonDto } from './dto/create-person.dto';
 import { UpdatePersonDto } from './dto/update-person.dto';
+import { User } from 'src/user/user.entity';
 
 @Injectable()
 export class PersonsService {
@@ -46,10 +47,18 @@ export class PersonsService {
   }
 
   async remove(id: string) {
-    const person = await this.findOne(id);
+    const person = await Persons.findOne(id);
 
+    const userWithThisPerson = await User.findOne({ person: person }, { relations: ['person'] });
+
+    if(userWithThisPerson) {
+      userWithThisPerson.person = null;
+
+      await userWithThisPerson.save();
+    }
+    console.log(userWithThisPerson);
     await person.remove();
 
-    return { success: true };
+    return { success: false, user: userWithThisPerson };
   }
 }

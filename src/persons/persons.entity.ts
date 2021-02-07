@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/user/user.entity';
+import { BaseEntity, Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum PersonsGendersEnum {
   MALE,
@@ -31,4 +32,7 @@ export class Persons extends BaseEntity {
 
   @Column({ nullable: true, default: null })
   role: string | null;
+
+  @OneToOne(type => User)
+  user: User;
 }
