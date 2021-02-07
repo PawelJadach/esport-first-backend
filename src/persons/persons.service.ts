@@ -56,7 +56,7 @@ export class PersonsService {
 
       await userWithThisPerson.save();
     }
-    console.log(userWithThisPerson);
+
     await person.remove();
 
     return { success: false, user: userWithThisPerson };
