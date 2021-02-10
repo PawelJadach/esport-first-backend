@@ -2,7 +2,7 @@ import { Persons } from './persons.entity';
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { CreatePersonDto } from './dto/create-person.dto';
 import { UpdatePersonDto } from './dto/update-person.dto';
-import { User } from 'src/user/user.entity';
+import { User } from '../user/user.entity';
 
 @Injectable()
 export class PersonsService {

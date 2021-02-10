@@ -1,4 +1,4 @@
-import { UserService } from './../user/user.service';
+import { UserService } from '../user/user.service';
 import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
 import { hashPwd } from '../utils/hashPwd';

@@ -1,5 +1,5 @@
 import { EditUserDto } from './dto/edit-user.dto';
-import { ErrorResponse } from './../interfaces/error';
+import { ErrorResponse } from '../interfaces/error';
 import { UserRoleEnum } from './user.entity';
 import { CustomUserResponse, GetUsersResponse, GetUserResponse } from './../interfaces/user';
 import {
@@ -29,7 +29,7 @@ export class UserController {
 
   @Put('/:id/role')
   @UseGuards(AuthGuard('jwt'))
-  changeRole(@Param('id') id: string, @Body('role') role: UserRoleEnum) {
+  changeRole(@Param('id') id: string, @Body('role') role: UserRoleEnum): Promise<CustomUserResponse> {
     return this.userService.changeRole(id, role);
   }
 

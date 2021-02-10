@@ -1,14 +1,18 @@
 import { EditUserDto } from './dto/edit-user.dto';
-import { ErrorResponse } from './../interfaces/error';
-import { CustomUserResponse, GetUsersResponse, GetUserResponse } from './../interfaces/user';
+import { ErrorResponse } from '../interfaces/error';
+import { CustomUserResponse, GetUsersResponse, GetUserResponse } from '../interfaces/user';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { RegisterDto } from './dto/register.dto';
 import { User, UserRoleEnum } from './user.entity';
 import { RegisterUserResponse } from '../interfaces/user';
 import { hashPwd } from '../utils/hashPwd';
 import { Persons } from '../persons/persons.entity';
+import { Command, Console } from 'nestjs-console';
 
 @Injectable()
+@Console({
+  name: 'admin'
+})
 export class UserService {
   filter(user: User): RegisterUserResponse {
     return {
@@ -41,10 +45,11 @@ export class UserService {
     if (await User.findOne({ email: newUser.email })) {
       return { error: 'Email busy' };
     }
-
+    console.log(newUser.hasOwnProperty('role'));
     const user = new User();
     user.email = newUser.email;
     user.pwdHash = hashPwd(newUser.pwd);
+    user.role = newUser.hasOwnProperty('role') ? newUser.role : UserRoleEnum.MODERATOR;
 
     await user.save();
 
@@ -96,5 +101,25 @@ export class UserService {
     await user.save();
 
     return { success: true };
+  }
+
+  @Command({
+    command: 'add <email> <pwd>',
+    description: 'Add new admin'
+  })
+  async addAdminCmd(email: string, pwd: string) {
+    const res = await this.register({ email, pwd, role: UserRoleEnum.ADMIN });
+
+    if(res.hasOwnProperty('error')) {
+      console.log();
+      console.log("\x1b[31m", `User with this email is defined`);
+      console.log("\x1b[37m");
+    } else {
+      console.log();
+      console.log('ADMIN ADDED');
+      console.log("\x1b[35m", `Email: ${email}`);
+      console.info("\x1b[35m", `Password: ${pwd}`);
+      console.log("\x1b[37m");
+    }
   }
 }
