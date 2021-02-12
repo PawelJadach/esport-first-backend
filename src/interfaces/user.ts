@@ -7,10 +7,6 @@ export interface RegisterUserResponse {
   person: Persons;
 }
 
-export interface CustomUserResponse {
-  success: boolean;
-}
-
 export interface GetUserResponse {
   id: string;
   email: string;

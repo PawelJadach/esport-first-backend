@@ -1,6 +1,7 @@
+import { CustomSuccessResponse } from './../interfaces/success';
 import { EditUserDto } from './dto/edit-user.dto';
 import { ErrorResponse } from '../interfaces/error';
-import { CustomUserResponse, GetUsersResponse, GetUserResponse } from '../interfaces/user';
+import { GetUsersResponse, GetUserResponse } from '../interfaces/user';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { RegisterDto } from './dto/register.dto';
 import { User, UserRoleEnum } from './user.entity';
@@ -63,7 +64,7 @@ export class UserService {
     return this.filter(user);
   }
 
-  async deleteOne(id: string): Promise<CustomUserResponse> {
+  async deleteOne(id: string): Promise<CustomSuccessResponse> {
     const user = await this.findById(id);
 
     await user.remove();
@@ -93,7 +94,7 @@ export class UserService {
   async changeRole(
     id: string,
     role: UserRoleEnum
-  ): Promise<CustomUserResponse> {
+  ): Promise<CustomSuccessResponse> {
     const user = await this.findById(id);
 
     user.role = role;

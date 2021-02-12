@@ -1,7 +1,8 @@
+import { CustomSuccessResponse } from './../interfaces/success';
 import { EditUserDto } from './dto/edit-user.dto';
 import { ErrorResponse } from '../interfaces/error';
 import { UserRoleEnum } from './user.entity';
-import { CustomUserResponse, GetUsersResponse, GetUserResponse } from './../interfaces/user';
+import { GetUsersResponse, GetUserResponse } from './../interfaces/user';
 import {
   Body,
   Controller,
@@ -29,7 +30,7 @@ export class UserController {
 
   @Put('/:id/role')
   @UseGuards(AuthGuard('jwt'))
-  changeRole(@Param('id') id: string, @Body('role') role: UserRoleEnum): Promise<CustomUserResponse> {
+  changeRole(@Param('id') id: string, @Body('role') role: UserRoleEnum): Promise<CustomSuccessResponse> {
     return this.userService.changeRole(id, role);
   }
 
@@ -43,7 +44,7 @@ export class UserController {
 
   @Delete('/:id')
   @UseGuards(AuthGuard('jwt'))
-  deleteOne(@Param('id') id: string): Promise<CustomUserResponse> {
+  deleteOne(@Param('id') id: string): Promise<CustomSuccessResponse> {
     return this.userService.deleteOne(id);
   }
 
