@@ -46,7 +46,7 @@ export class UserService {
     if (await User.findOne({ email: newUser.email })) {
       return { error: 'Email busy' };
     }
-    console.log(newUser.hasOwnProperty('role'));
+
     const user = new User();
     user.email = newUser.email;
     user.pwdHash = hashPwd(newUser.pwd);

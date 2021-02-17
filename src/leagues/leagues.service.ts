@@ -47,7 +47,7 @@ export class LeaguesService {
 
   async remove(id: string): Promise<CustomSuccessResponse> {
     const found = await this.findOne(id);
-    console.log(found);
+
     await found.remove();
 
     return { success: true };
