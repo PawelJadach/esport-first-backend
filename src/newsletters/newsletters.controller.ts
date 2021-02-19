@@ -26,12 +26,12 @@ export class NewslettersController {
     return this.newslettersService.delete(id);
   }
 
-  @Put('/subscribe/:id')
+  @Get('/subscribe/:id')
   subscribe(@Param('id') id: string): Promise<string> {
     return this.newslettersService.subscribe(id);
   }
 
-  @Put('/unsubscribe/:id')
+  @Get('/unsubscribe/:id')
   unsubscribe(@Param('id') id: string): Promise<string> {
     return this.newslettersService.unsubscribe(id);
   }

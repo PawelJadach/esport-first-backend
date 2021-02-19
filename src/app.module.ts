@@ -7,8 +7,9 @@ import { PersonsModule } from './persons/persons.module';
 import { ConsoleModule } from 'nestjs-console';
 import { LeaguesModule } from './leagues/leagues.module';
 import { NewslettersModule } from './newsletters/newsletters.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(typeOrmConfig), UserModule, AuthModule, PersonsModule, ConsoleModule, LeaguesModule, NewslettersModule],
+  imports: [TypeOrmModule.forRoot(typeOrmConfig), UserModule, AuthModule, PersonsModule, ConsoleModule, LeaguesModule, NewslettersModule, MailModule],
 })
 export class AppModule {}
