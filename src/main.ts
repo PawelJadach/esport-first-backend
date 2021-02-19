@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as cookieParser from 'cookie-parser';
-import { host } from './config/host';
+import { host, host2 } from './config/host';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
@@ -9,7 +9,7 @@ async function bootstrap() {
 
   app.use(cookieParser());
   app.enableCors({
-    origin: host,
+    origin: [host, host2],
     credentials: true,
   });
 
