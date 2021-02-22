@@ -55,10 +55,12 @@ export class NewslettersService {
     if(!found) {
       const newsletter = new NewsletterEntity();
       newsletter.email = addToNewsletterDto.email;
-      await newsletter.save();
-    }
+      const newNewsletter = await newsletter.save();
 
-    await this.mailService.sendMail(addToNewsletterDto.email, 'Zapis do newslettera', subscribe(found.id));
+      await this.mailService.sendMail(addToNewsletterDto.email, 'Zapis do newslettera', subscribe(newNewsletter.id));
+    } else {
+      await this.mailService.sendMail(addToNewsletterDto.email, 'Zapis do newslettera', subscribe(found.id));
+    }
 
     return { success: true };
   }
