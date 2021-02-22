@@ -1,11 +1,17 @@
+import { MailService } from './../mail/mail.service';
 import { Newsletter as NewsletterEntity } from './newsletter.entity';
 import { Newsletter } from '../interfaces/newsletter';
 import { AddToNewsletterDto } from './dto/add-to-newsletter.dto';
-import { HttpException, Injectable, HttpStatus } from '@nestjs/common';
+import { HttpException, Injectable, HttpStatus, Inject } from '@nestjs/common';
 import { CustomSuccessResponse } from 'src/interfaces/success';
+import { subscribe } from 'src/templates/email/subscribe';
 
 @Injectable()
 export class NewslettersService {
+
+  constructor(
+    @Inject(MailService) private mailService: MailService,
+  ){}
 
   async findById(id: string): Promise<NewsletterEntity> {
     const found = await NewsletterEntity.findOne(id);
@@ -42,14 +48,18 @@ export class NewslettersService {
   async add(addToNewsletterDto: AddToNewsletterDto): Promise<CustomSuccessResponse> {
     const found = await NewsletterEntity.findOne({ email: addToNewsletterDto.email });
 
-    if(found) {
+    if(found && found.isActive) {
       throw new HttpException('Email busy', HttpStatus.BAD_REQUEST);
     }
 
-    const newsletter = new NewsletterEntity();
-    newsletter.email = addToNewsletterDto.email;
+    if(!found) {
+      const newsletter = new NewsletterEntity();
+      newsletter.email = addToNewsletterDto.email;
+      await newsletter.save();
+    }
 
-    await newsletter.save();
+    await this.mailService.sendMail(addToNewsletterDto.email, 'Zapis do newslettera', subscribe(found.id));
+
     return { success: true };
   }
 

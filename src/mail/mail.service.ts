@@ -7,7 +7,7 @@ export class MailService {
 
     async sendMail(to: string, subject: string, html: string): Promise<any> {
         await this.mailerService.sendMail({
-            to, subject, html,
+            to, subject, html
         })
     }
 }
