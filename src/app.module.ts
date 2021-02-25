@@ -8,8 +8,9 @@ import { ConsoleModule } from 'nestjs-console';
 import { LeaguesModule } from './leagues/leagues.module';
 import { NewslettersModule } from './newsletters/newsletters.module';
 import { MailModule } from './mail/mail.module';
+import { NewsModule } from './news/news.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(typeOrmConfig), UserModule, AuthModule, PersonsModule, ConsoleModule, LeaguesModule, NewslettersModule, MailModule],
+  imports: [TypeOrmModule.forRoot(typeOrmConfig), UserModule, AuthModule, PersonsModule, ConsoleModule, LeaguesModule, NewslettersModule, MailModule, NewsModule],
 })
 export class AppModule {}
