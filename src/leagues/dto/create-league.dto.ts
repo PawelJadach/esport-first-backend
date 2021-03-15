@@ -10,11 +10,6 @@ export class CreateLeagueDto {
 
   @IsNotEmpty({ message: 'Link to page should not be empty!' })
   @IsString()
-  @IsUrl()
+  @IsUrl({ require_protocol: true }, { message: 'Link must be link and start with protocol! (http / https)' })
   linkToPage: string;
-
-  @IsNotEmpty({ message: 'Link to logo should not be empty!' })
-  @IsUrl()
-  @IsString()
-  linkLogo: string;
 }

@@ -11,6 +11,6 @@ export class Leagues extends BaseEntity {
   @Column({ nullable: true })
   linkToPage: string;
 
-  @Column({ nullable: true })
-  linkLogo: string;
+  @Column({ nullable: true, default: null })
+  imgFn: string;
 }

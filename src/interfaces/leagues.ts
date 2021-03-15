@@ -1,6 +1,5 @@
-export interface CreateLeague {
+export interface LeagueInterface {
   id: string;
   name: string;
-  linkLogo: string;
   linkToPage: string;
 }
