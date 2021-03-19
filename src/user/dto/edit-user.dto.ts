@@ -3,7 +3,7 @@ import { IsNotEmpty, IsString } from "class-validator";
 export class EditUserDto {
   @IsString()
   @IsNotEmpty()
-  email?: string;
+  email: string;
 
   @IsString()
   personId?: string;
